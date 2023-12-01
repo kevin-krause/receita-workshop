@@ -1,0 +1,50 @@
+<nav
+    class="navbar navbar-expand-lg navbar-light"
+    style="background-color: #e3f2fd"
+>
+    <a class="navbar-brand" href="#">
+        <img
+            src="https://storage.googleapis.com/ecdt-logo-saida/c9877c9bb653b8d1628240faf97944e70a50eab0926ddff8738b967691d7812c/MOTORMAC.webp"
+            width="30"
+            height="30"
+            alt=""
+        />
+        Receita
+    </a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a
+                    class="nav-link"
+                    hx-get="{% url 'core:index'%}"
+                    ht-swap="innerHTML"
+                    hx-target="#contentContainer"
+                    hx-push-url="true"
+                    >Home</a
+                >
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    hx-get="{% url 'core:busca_receita'%}"
+                    ht-swap="innerHTML"
+                    hx-target="#contentContainer"
+                    hx-indicator="#spinner"
+                    hx-push-url="true"
+                    >Buscar CNPJ</a
+                >
+            </li>
+        </ul>
+    </div>
+</nav>

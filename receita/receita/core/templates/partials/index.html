@@ -1,0 +1,23 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">CNPJ</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Nome Fatansia</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for empresa in empresas %}
+        <tr>
+            <td>
+                <a href="{{ empresa.get_absolute_url }}">{{ empresa.cnpj }}</a>
+            </td>
+            <td>{{ empresa.nome }}</td>
+            <td>
+                {% if empresa.fantasia %}{{ empresa.fantasia }}{% else
+                %}-{%endif%}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

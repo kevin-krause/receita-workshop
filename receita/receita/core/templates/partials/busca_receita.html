@@ -1,0 +1,6 @@
+{% load crispy_forms_tags %} {% load static %}
+<form id="cnpj_form" method="get">
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+{% if cnpj_data %} {% include 'includes/empresa_content.html' %} {% endif %}

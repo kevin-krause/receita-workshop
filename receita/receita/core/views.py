@@ -11,6 +11,37 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
+def index(request):
+    empresas = Empresa.objects.all().order_by('nome')
+    if request.htmx:
+        template_name = 'partials/index.html'
+    else:
+        template_name = 'index.html'
+    return render(request, template_name, context={'empresas': empresas})
+
+
+@login_required
+def empresa_detail(request, pk):
+    cnpj_data = get_object_or_404(Empresa, pk=pk)
+    
+    if request.method == "POST":
+        comment_view(request, cnpj_data.cnpj)
+    
+    comment_form = CommentForm(
+        initial={
+            "user": request.user,
+            "empresa": cnpj_data
+        }
+    )
+    context = {
+        "cnpj_data": cnpj_data,
+        "comment_form": comment_form,
+        "comments": Comment.objects.filter(empresa=cnpj_data).order_by('-created_at')
+    }
+    return render(request, 'empresa_detail.html', context)
+
+
+@login_required
 def busca_receita(request):
     receita_ws = ReceitaWS()
     context = {}
@@ -53,12 +84,16 @@ def busca_receita(request):
             context.update({
                         "cnpj_data": cnpj_data,
                         "comment_form": comment_form,
-                        "comments": Comment.objects.filter(empresa=cnpj_data)
+                        "comments": Comment.objects.filter(empresa=cnpj_data).order_by('-created_at')
                     })
     context.update({
         'form': form,
     })
-    return render(request, 'busca_receita.html', context=context)
+    if request.htmx:
+        template_name = 'partials/busca_receita.html'
+    else:
+        template_name = 'busca_receita.html'
+    return render(request, template_name, context=context)
 
 
 def comment_view(request, cnpj):

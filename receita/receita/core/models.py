@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -12,6 +13,9 @@ class Empresa(models.Model):
     endereco = models.CharField(max_length=100)
     cnpj = models.CharField(max_length=14, unique=True)
     email = models.EmailField()
+
+    def get_absolute_url(self):
+        return reverse("core:empresa_detail", kwargs={"pk": self.pk})
 
 
 class Comment(models.Model):

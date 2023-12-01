@@ -1,0 +1,65 @@
+{% load crispy_forms_tags %} {% load static %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Nome Fantasia</th>
+            <th scope="col">Logradouro</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ cnpj_data.nome }}</td>
+            <td>{{ cnpj_data.fantasia }}</td>
+            <td>{{ cnpj_data.logradouro }}</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    <button
+        class="btn btn-secondary"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapseComments"
+        aria-expanded="false"
+        aria-controls="collapseComments"
+    >
+        Comentários
+    </button>
+    <button
+        class="btn btn-secondary"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapseCommentForm"
+        aria-expanded="false"
+    >
+        Comentar
+    </button>
+</p>
+<div
+    class="collapse p-2"
+    id="collapseComments"
+    style="overflow-y: scroll; overflow-x: hidden; max-height: 300px"
+>
+    {% if comments %} {% for comment in comments %}
+    <div
+        class="card card-body d-flex justify-content-between flex-row m-2"
+        style="width: 100%"
+    >
+        {{ comment.text }}
+        <div>
+            <span class="font-weight-bold"> {{ comment.user }} </span>
+            {{ comment.created_at}}
+        </div>
+    </div>
+    {% endfor %} {% else %}
+    <p>Não há comentários :/</p>
+    {% endif %}
+</div>
+<div class="collapse p-2" id="collapseCommentForm">
+    <h5>Comentar</h5>
+    <form id="comment_form" method="post">
+        {% csrf_token %} {{ comment_form|crispy }}
+        <button type="submit" class="btn btn-primary">Commentar</button>
+    </form>
+</div>
